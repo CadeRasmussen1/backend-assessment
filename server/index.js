@@ -7,18 +7,16 @@ const app = express();
 app.use(cors());
 
 app.use(express.json()); // When we want to be able to accept JSON.
+const ctrl = require('./controllers.js')
 
-const ctrl = require('./contorllers.js')
+app.post('/api/favorites', ctrl.createFavorites)
+app.get('/api/favorites', ctrl.getFavorites)
+app.delete('api/favorites/:id', ctrl.deleteFavorite)
 
-app.get('/api/hobbies', ctrl.getHobbies)
-app.post('/api/hobbies', ctrl.postHobbies)
-app.delete('/api/hobbies', ctrl.deleteHobbies)
-
-
-app.get("/api/compliment", (req, res) => {
-  const compliments = ["Gee, you're a smart cookie!",
-					 "Cool shirt!",
-					 "Your Javascript skills are stellar.",
+app.get('/api/compliment', (req, res) => {
+  const compliments = [`Gee, you're a smart cookie!`,
+					 'Cool shirt!',
+					 'Your Javascript skills are stellar.',
   ];
 
   // choose random compliment
@@ -29,18 +27,6 @@ app.get("/api/compliment", (req, res) => {
   
 });
 
-// let fortuneBtn = document.querySelector("")
-
-// let getFortune = () => {
-//     axios.get('http://localhost:4000/api/fortune/')
-//     .then(function (res){
-//       const data = res.data
-//       alert(data)
-//     })
-// }
-
-// fortuneBtn.addEventListener('click', getFortune)
-
 app.get('/api/fortune', (req, res) => {
   const fortunes = ['A beautiful, smart, and loving person will be coming into your life.',
       'All your hard work will soon pay off.',
@@ -48,13 +34,11 @@ app.get('/api/fortune', (req, res) => {
       'Believe it can be done.',
       'Courtesy begins in the home.']
 
-  let randomIndex = Math.floor(Math.random() * fortunes.lenght)
+  let randomIndex = Math.floor(Math.random() * fortunes.length)
   let randomFortune = fortunes[randomIndex]
 
   res.status(200).send(randomFortune)
 
 })
 
-
-
-app.listen(4000, () => console.log("Server running on 4000"));
+app.listen(4004, () => console.log("Server running on 4004"));
